@@ -1,4 +1,4 @@
-FROM golang:1.19-buster as builder
+FROM golang:1.20-buster as builder
 WORKDIR /build
 COPY report_archiver/ ./
 RUN go build -o report-archiver && \
