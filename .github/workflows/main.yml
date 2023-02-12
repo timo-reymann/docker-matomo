@@ -1,0 +1,19 @@
+name: Continuous build and release docker image
+on:
+  push:
+    branches:
+      - master
+      - main
+permissions:
+  contents: write
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: timo-reymann/docker-semantic-release-gh-action@v1
+        with:
+          image: timoreymann/matomo
+          dockerhub_username: ${{ secrets.DOCKERHUB_USERNAME }}
+          dockerhub_token: ${{ secrets.DOCKERHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
