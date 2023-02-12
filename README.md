@@ -11,6 +11,7 @@ Matomo image based on [php-app](https://gitlab.com/timo-reymann/php-app), custom
 - Running as non-root
 - Keep your matomo up to date independently of the image
 - Installed maxminddb php extension for geoip functionality
+- Run report archive every hour in dedicated crons
 
 ## Set up
 
