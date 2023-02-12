@@ -21,6 +21,15 @@ Matomo image based on [php-app](https://gitlab.com/timo-reymann/php-app), custom
 - Run report archive every hour in dedicated crons
 
 
+## Why not just using one of the official images?
+
+- first of all they run as root, which i dont like
+- on the other hand i would like to use nginx over apache, for
+  performance, security reasons and personal preference
+- includes no cron for archiving, which dramatically speeds up the web
+  ui
+
+
 ## Set up
 
 - Download matomo from the [official homepage](https://builds.matomo.org/matomo.zip)
