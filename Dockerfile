@@ -4,7 +4,7 @@ COPY report_archiver/ ./
 RUN go build -o report-archiver && \
     chmod +x report-archiver
 
-FROM timoreymann/php-app:1.7.0
+FROM timoreymann/php-app:1.7.1
 USER root
 
 COPY --chown=application:application --from=builder /build/report-archiver /bin/report-archiver
