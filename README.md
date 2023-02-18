@@ -7,7 +7,7 @@ docker-matomo
 <p align="center">
 	<img width="300" src="./.github/images/logo.png">
     <br />
-    Matomo image based on [php-app](https://gitlab.com/timo-reymann/php-app), 
+    Matomo image based on <a href="https://github.com/timo-reymann/php-app">php-app</a>, 
     customized to suit best for matomo, including report archive cron job
 </p>
 
