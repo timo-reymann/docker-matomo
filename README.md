@@ -21,11 +21,6 @@ Matomo Docker Image
 ## Requirements
 - [Docker](https://docs.docker.com/get-docker/)
 
-## Components
-- nginx
-- php-fpm
-- go binary for archiving reports every hour
-
 ## Installation
 
 - Download matomo from the [official homepage](https://builds.matomo.org/matomo.zip)
@@ -57,6 +52,13 @@ Why not just using one of the official images?
   performance, security reasons and personal preference
 - includes no cron for archiving, which dramatically speeds up the web
   ui
+  
+## Documentation
+
+### Components
+- nginx
+- php-fpm
+- go binary for archiving reports every hour
 
 ## Contributing
 
