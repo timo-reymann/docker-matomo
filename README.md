@@ -7,7 +7,7 @@ Matomo Docker Image
 [![Pipeline status](https://github.com/timo-reymann/docker-matomo/actions/workflows/main.yml/badge.svg)](https://github.com/timo-reymann/docker-matomo/actions/workflows/main.yml)
 
 <p align="center">
-	<img width="300" src="./.github/images/logo.png">
+	<img width="300" src="https://github.com/timo-reymann/docker-matomo/raw/main/.github/images/logo.png">
     <br />
     Matomo image based on <a href="https://github.com/timo-reymann/php-app">php-app</a>, 
     customized to suit best for matomo, including report archive cron job
