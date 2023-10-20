@@ -1,3 +1,10 @@
+## [1.3.0](https://github.com/timo-reymann/docker-matomo/compare/1.2.1...1.3.0) (2023-10-20)
+
+
+### Features
+
+* Add oci labels ([b977b2f](https://github.com/timo-reymann/docker-matomo/commit/b977b2f3d4fac31f46ba6f29417ef076de0fcfdd))
+
 ## [1.2.1](https://github.com/timo-reymann/docker-matomo/compare/1.2.0...1.2.1) (2023-06-16)
 
 
