@@ -5,6 +5,16 @@ RUN go build -o report-archiver && \
     chmod +x report-archiver
 
 FROM timoreymann/php-app:1.8.1
+LABEL org.opencontainers.image.title="docker-matomo"
+LABEL org.opencontainers.image.description="Docker image to run matomo, including report archive cron job"
+LABEL org.opencontainers.image.ref.name="main"
+LABEL org.opencontainers.image.licenses='MIT'
+LABEL org.opencontainers.image.vendor="Timo Reymann <mail@timo-reymann.de>"
+LABEL org.opencontainers.image.authors="Timo Reymann <mail@timo-reymann.de>"
+LABEL org.opencontainers.image.url="https://github.com/timo-reymann/docker-matomo"
+LABEL org.opencontainers.image.documentation="https://github.com/timo-reymann/docker-matomo"
+LABEL org.opencontainers.image.source="https://github.com/timo-reymann/docker-matomo.git"
+
 USER root
 
 COPY --chown=application:application --from=builder /build/report-archiver /bin/report-archiver
@@ -40,4 +50,3 @@ USER application
 COPY nginx_matomo.conf /etc/nginx/conf.d/matomo.conf
 
 ENTRYPOINT ["/bin/multirun", "-v", "nginx", "php-fpm", "report-archiver"]
-
