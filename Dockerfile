@@ -4,7 +4,7 @@ COPY report_archiver/ ./
 RUN go build -o report-archiver && \
     chmod +x report-archiver
 
-FROM timoreymann/php-app:1.9.0
+FROM timoreymann/php-app:1.9.1
 LABEL org.opencontainers.image.title="docker-matomo"
 LABEL org.opencontainers.image.description="Docker image to run matomo, including report archive cron job"
 LABEL org.opencontainers.image.ref.name="main"
