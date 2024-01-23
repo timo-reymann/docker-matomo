@@ -1,3 +1,10 @@
+## [1.4.2](https://github.com/timo-reymann/docker-matomo/compare/1.4.1...1.4.2) (2024-01-23)
+
+
+### Bug Fixes
+
+* **deps:** update timoreymann/php-app docker tag to v1.10.2 ([#13](https://github.com/timo-reymann/docker-matomo/issues/13)) ([130c618](https://github.com/timo-reymann/docker-matomo/commit/130c618481b6c258ade4baa2e9d2995dd4d27a43))
+
 ## [1.4.1](https://github.com/timo-reymann/docker-matomo/compare/1.4.0...1.4.1) (2023-12-28)
 
 
