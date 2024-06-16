@@ -1,0 +1,37 @@
+version: "3.2"
+services:
+  matomo:
+    platform: linux/amd64
+    image: timoreymann/matomo
+    ports:
+      - "8080:8080"
+    environment:
+      MATOMO_DATABASE_USERNAME: matomo
+      MATOMO_DATABASE_PASSWORD: s3cret
+      MATOMO_DATABASE_HOST: mysql
+      MATOMO_DATABASE_DBNAME: matomo
+      MATOMO_GENERAL_SALT: ad4df33249090e83bea87f0918916809
+      MATOMO_SETUP_COMPLETE: 1
+      MATOMO_GENERAL_PROXY_CLIENT_HEADERS: HTTP_CF_CONNECTING_IPV6,HTTP_CF_CONNECTING_IP,HTTP_X_FORWARDED_FOR
+      MATOMO_GENERAL_PROXY_HOST_HEADERS: HTTP_X_FORWARDED_HOST
+      MATOMO_MAIL_ENABLED: 0
+      MATOMO_PLUGINS_TO_DEACTIVATE: "RssWidget,Diagnostics"
+      MATOMO_PLUGINS_TO_INSTALL: BotTracker,ReferrersManager,LogViewer,Provider
+    restart: no
+    links:
+      - mysql
+    depends_on:
+      - mysql
+  mysql:
+    image: mariadb
+    environment:
+      MARIADB_USER: matomo
+      MARIADB_DATABASE: matomo
+      MARIADB_PASSWORD: s3cret
+      MARIADB_ROOT_PASSWORD: youShallNotPass
+    volumes:
+      - mysql:/var/lib/mysql
+    ports:
+      - "3306"
+volumes:
+  mysql: { }
