@@ -20,6 +20,8 @@ Matomo Docker Image
 - Easy installation of plugins on startup or in build process
 - Installed maxminddb php extension for geoip functionality
 - Run report archive every hour in dedicated crons
+- Disabled update check
+- Immutable configuration file
 
 ## Requirements
 

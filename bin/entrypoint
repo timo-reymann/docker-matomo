@@ -38,8 +38,13 @@ then
   entrypoint_log "Disable core plugins that are conflicting with docker-matomo set up"
   matomo-manage-plugins "deactivate" "Marketplace,Monolog"
 
-  entrypoint_log "Make configuration readonly by patching matomo core and setting file permissions"
+  entrypoint_log "Make configuration readonly by patching matomo core"
   patch -p1 < /app/patches/core_config.patch >/dev/null
+
+  entrypoint_log "Disable UpdateChecker latestVersion logic by patching matomo core"
+  patch -p1 < /app/patches/core_updatecheck.patch >/dev/null
+
+  entrypoint_log "Make config.ini.php immutable"
   chmod 444 /app/config/config.ini.php
 fi
 

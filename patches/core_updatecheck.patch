@@ -1,0 +1,22 @@
+Subject: [PATCH]  matomo-core: Patch UpdateCheck to never emit an update is available
+---
+Index: core/UpdateCheck.php
+<+>UTF-8
+===================================================================
+diff --git a/core/UpdateCheck.php b/core/UpdateCheck.php
+--- a/core/UpdateCheck.php	(revision 3ac804031faeb097dd6625b4bc3edd806f4bee1e)
++++ b/core/UpdateCheck.php	(date 1718616454129)
+@@ -117,13 +117,6 @@
+      */
+     public static function isNewestVersionAvailable()
+     {
+-        $latestVersion = self::getLatestVersion();
+-        if (
+-            !empty($latestVersion)
+-            && version_compare(Version::VERSION, $latestVersion) == -1
+-        ) {
+-            return $latestVersion;
+-        }
+         return false;
+     }
+ }

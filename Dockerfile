@@ -16,6 +16,7 @@ WORKDIR /src
 RUN unzip /raw/matomo.zip
 COPY config/config.ini.php matomo/config/config.ini.template.php
 COPY patches/core_config.patch matomo/patches/core_config.patch
+COPY patches/core_updatecheck.patch matomo/patches/core_updatecheck.patch
 
 FROM scratch as bins
 COPY --from=builder /build/report-archiver /bin/matomo-report-archiver
