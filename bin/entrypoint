@@ -1,16 +1,10 @@
 #!/bin/bash
 set -eo pipefail
 
-perform_for_plugins() {
-  local state="$1"
-  local plugins="$2"
+entrypoint_log() {
+  message="$1"
 
-  local IFS=","
-
-  for plugin in $plugins;
-  do
-    /app/console "plugin:$state" "$plugin"
-  done
+  echo "[entrypoint            ]: ${message}"
 }
 
 install_plugins() {
@@ -26,30 +20,32 @@ install_plugins() {
 
 if [[ -n "$MATOMO_SETUP_COMPLETE" ]] && ! [[ "$MATOMO_SETUP_COMPLETE" =~ ^(false|0|no)$ ]];
 then
-  echo "[entrypoint] Patch matomo config"
+  entrypoint_log "Patch matomo config"
   echo "; <?php exit; ?> DO NOT REMOVE THIS LINE" >> /app/config/config.ini.php
   php /app/config/config.ini.template.php >> /app/config/config.ini.php
 
   if [[ -n "$MATOMO_PLUGINS_TO_DEACTIVATE" ]];
   then
-    echo "[entrypoint] Deactivate plugins $MATOMO_PLUGINS_TO_DEACTIVATE"
-    perform_for_plugins "deactivate" "$MATOMO_PLUGINS_TO_DEACTIVATE"
+    matomo-manage-plugins "deactivate" "$MATOMO_PLUGINS_TO_DEACTIVATE"
   fi
 
   if [[ -n "$MATOMO_PLUGINS_TO_INSTALL" ]];
   then
-      echo "[entrypoint] Install and active plugins $MATOMO_PLUGINS_TO_INSTALL"
       install_plugins "$MATOMO_PLUGINS_TO_INSTALL"
-      perform_for_plugins "activate" "$MATOMO_PLUGINS_TO_INSTALL"
+      matomo-manage-plugins "activate" "$MATOMO_PLUGINS_TO_INSTALL"
   fi
+
+  entrypoint_log "Make configuration readonly by patching matomo core and setting file permissions"
+  patch -p1 < /app/patches/core_config.patch >/dev/null
+  chmod 444 /app/config/config.ini.php
 fi
 
 if [[ -n "$MATOMO_AUTO_UPDATE_SCHEMA" ]] && ! [[ "$MATOMO_AUTO_UPDATE_SCHEMA" =~ ^(false|0|no)$ ]];
 then
-  echo "[entrypoint] Update matomo schema"
+  entrypoint_log "Update matomo schema"
   /app/console core:update --yes
   /app/console cache:clear
 fi
 
-echo "[entrypoint] Starting services"
-exec /bin/multirun -v nginx php-fpm matomo-report-archiver
+entrypoint_log "Starting services"
+exec /bin/multirun -v mnginx mphp-fpm matomo-report-archiver
