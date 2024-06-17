@@ -35,6 +35,9 @@ then
       matomo-manage-plugins "activate" "$MATOMO_PLUGINS_TO_INSTALL"
   fi
 
+  entrypoint_log "Disable core plugins that are conflicting with docker-matomo set up"
+  matomo-manage-plugins "deactivate" "Marketplace,Monolog"
+
   entrypoint_log "Make configuration readonly by patching matomo core and setting file permissions"
   patch -p1 < /app/patches/core_config.patch >/dev/null
   chmod 444 /app/config/config.ini.php
