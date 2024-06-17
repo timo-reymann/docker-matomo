@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-exec > >(trap "" INT TERM; sed 's/^/[nginx                  ]: /')
-exec 2> >(trap "" INT TERM; sed 's/^/[nginx                  ]: /' >&2)
+exec > >(trap "" INT TERM; sed 's/^/[nginx                 ]: /')
+exec 2> >(trap "" INT TERM; sed 's/^/[nginx                 ]: /' >&2)
 
 exec nginx

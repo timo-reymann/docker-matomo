@@ -8,10 +8,11 @@ import (
 	"time"
 )
 
-var logger = log.New(os.Stdout, "[]matomo-report-archiver]: ", log.Lmsgprefix)
+var logger = log.New(os.Stdout, "[matomo-report-archiver]: ", log.Lmsgprefix)
 var logStreamerOut = logstreamer.NewLogstreamer(logger, "", false)
 
 func archiveReport(phpExecutable string) {
+    logger.Println("Archive reports")
 	cmd := exec.Command(phpExecutable, ConsolePath, "core:archive")
 	cmd.Stdout = logStreamerOut
 	cmd.Stderr = logStreamerOut
@@ -27,7 +28,7 @@ func archiveReport(phpExecutable string) {
 const ConsolePath = "/app/console"
 
 func main() {
-	logger.Println("Run report_archiver.")
+	logger.Println("Init report_archiver")
 	phpExecutable, err := exec.LookPath("php")
 	if err != nil {
 		logger.Fatalf("ERROR: %s \n", err.Error())

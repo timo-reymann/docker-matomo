@@ -5,7 +5,7 @@ exec > >(trap "" INT TERM; sed 's/^/[matomo-manage-plugin  ]: /')
 exec 2> >(trap "" INT TERM; sed 's/^/[matomo-manage-plugin  ]: /' >&2)
 
 usage() {
-  echo "Usage: $(basename $0) <state> '<plugins seperated by space>'" >&2
+  echo "Usage: $(basename $0) <state> '<plugins seperated by comma>'" >&2
   exit 2
 }
 
