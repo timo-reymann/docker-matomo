@@ -1,3 +1,10 @@
+## [2.2.0](https://github.com/timo-reymann/docker-matomo/compare/2.1.0...2.2.0) (2024-06-21)
+
+
+### Features
+
+* Update maxminddb ([#19](https://github.com/timo-reymann/docker-matomo/issues/19)) ([c8d5f57](https://github.com/timo-reymann/docker-matomo/commit/c8d5f57d1f8949f7628b98b8ff3aa7419d78077e))
+
 ## [2.1.0](https://github.com/timo-reymann/docker-matomo/compare/2.0.3...2.1.0) (2024-06-21)
 
 
