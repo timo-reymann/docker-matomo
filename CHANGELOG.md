@@ -1,3 +1,10 @@
+## [2.3.1](https://github.com/timo-reymann/docker-matomo/compare/2.3.0...2.3.1) (2024-06-21)
+
+
+### Bug Fixes
+
+* Ignore config file delete status ([190721e](https://github.com/timo-reymann/docker-matomo/commit/190721e0ec76e73b74354a651deb422ac521fc9a))
+
 ## [2.3.0](https://github.com/timo-reymann/docker-matomo/compare/2.2.0...2.3.0) (2024-06-21)
 
 
