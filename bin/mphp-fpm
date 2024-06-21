@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-exec > >(trap "" INT TERM; sed 's/^/[php-fpm                ]:/')
-exec 2> >(trap "" INT TERM; sed 's/^/[php-fpm                ]:/' >&2)
+exec > >(trap "" INT TERM; cat ) | awk '{print "[php-fpm                ]:", $0}'
+exec 2> >(trap "" INT TERM; cat ) | awk '{print "[php-fpm                ]:", $0}' >&2
 
 exec php-fpm

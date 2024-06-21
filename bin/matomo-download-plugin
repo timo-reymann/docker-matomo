@@ -1,8 +1,8 @@
 #!/bin/bash
 set -eo pipefail
 
-exec > >(trap "" INT TERM; sed 's/^/[matomo-download-plugin]: /')
-exec 2> >(trap "" INT TERM; sed 's/^/[matomo-download-plugin]: /' >&2)
+exec > >(trap "" INT TERM; cat ) | awk '{print "[matomo-download-plugin]: ", $0}'
+exec > >(trap "" INT TERM; cat ) | awk '{print "[matomo-download-plugin]: ", $0}' >&2
 
 plugin="$1"
 

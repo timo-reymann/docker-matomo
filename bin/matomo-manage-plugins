@@ -1,8 +1,8 @@
 #!/bin/bash
 set -eo pipefail
 
-exec > >(trap "" INT TERM; sed 's/^/[matomo-manage-plugin  ]: /')
-exec 2> >(trap "" INT TERM; sed 's/^/[matomo-manage-plugin  ]: /' >&2)
+exec > >(trap "" INT TERM; cat ) | awk '{print "[matomo-manage-plugin  ]:", $0}'
+exec 2> >(trap "" INT TERM; cat ) | awk '{print "[matomo-manage-plugin  ]:", $0}' >&2
 
 usage() {
   echo "Usage: $(basename $0) <state> '<plugins seperated by comma>'" >&2
