@@ -21,7 +21,7 @@ install_plugins() {
 if [[ -n "$MATOMO_SETUP_COMPLETE" ]] && ! [[ "$MATOMO_SETUP_COMPLETE" =~ ^(false|0|no)$ ]];
 then
   entrypoint_log "Patch matomo config"
-  if [[ -f /app/config/config.ini.php ]];
+  if [[ -f /app/.patched ]];
   then
     rm /app/config/config.ini.php || true
   fi
@@ -43,14 +43,20 @@ then
   entrypoint_log "Disable core plugins that are conflicting with docker-matomo set up"
   matomo-manage-plugins "deactivate" "Marketplace,Monolog"
 
-  entrypoint_log "Make configuration readonly by patching matomo core"
-  patch -p1 < /app/patches/core_config.patch >/dev/null
+  if [[ ! -f /app/.patched ]];
+  then
+      entrypoint_log "Make configuration readonly by patching matomo core"
+      patch -p1 < /app/patches/core_config.patch >/dev/null
 
-  entrypoint_log "Disable UpdateChecker latestVersion logic by patching matomo core"
-  patch -p1 < /app/patches/core_updatecheck.patch >/dev/null
+      entrypoint_log "Disable UpdateChecker latestVersion logic by patching matomo core"
+      patch -p1 < /app/patches/core_updatecheck.patch >/dev/null
+  fi
 
   entrypoint_log "Make config.ini.php immutable"
   chmod 444 /app/config/config.ini.php
+
+  entrypoint_log "Mark app as patched"
+  echo "1" > /app/.patched
 fi
 
 if [[ -n "$MATOMO_AUTO_UPDATE_SCHEMA" ]] && ! [[ "$MATOMO_AUTO_UPDATE_SCHEMA" =~ ^(false|0|no)$ ]];
