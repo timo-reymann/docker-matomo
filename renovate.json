@@ -9,7 +9,7 @@
       "commitMessagePrefix": "feat:"
     },
     {
-      "matchDepNames": ["maxmind\/.*"],
+      "matchDepPatterns": ["maxmind\/.*"],
       "groupName": "maxminddb"
     }
   ],
