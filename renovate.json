@@ -3,6 +3,12 @@
   "extends": [
     "local>timo-reymann/renovate-config"
   ],
+  "packageRules": [
+    {
+      "matchManagers": ["regex"],
+      "commitMessagePrefix": "feat:"
+    }
+  ],
   "regexManagers": [
     {
       "fileMatch": ["^Dockerfile$"],
