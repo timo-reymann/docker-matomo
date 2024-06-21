@@ -1,3 +1,14 @@
+## [2.0.0](https://github.com/timo-reymann/docker-matomo/compare/1.4.4...2.0.0) (2024-06-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* This release bundles matomo inside the docker image, making the volume of code unnecessary and unsupported.
+
+### Features
+
+* Bundle matomo into docker image ([4eb0eed](https://github.com/timo-reymann/docker-matomo/commit/4eb0eedd4f46df977dbcfb5ed9bfc292fed4d1c1))
+
 ## [1.4.4](https://github.com/timo-reymann/docker-matomo/compare/1.4.3...1.4.4) (2024-06-09)
 
 
