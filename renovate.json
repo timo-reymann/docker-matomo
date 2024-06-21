@@ -7,6 +7,10 @@
     {
       "matchManagers": ["regex"],
       "commitMessagePrefix": "feat:"
+    },
+    {
+      "matchDepNames": ["maxmind\/.*"],
+      "groupName": "maxminddb"
     }
   ],
   "regexManagers": [
