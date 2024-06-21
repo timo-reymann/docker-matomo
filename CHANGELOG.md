@@ -1,3 +1,10 @@
+## [2.4.0](https://github.com/timo-reymann/docker-matomo/compare/2.3.2...2.4.0) (2024-06-21)
+
+
+### Features
+
+* Upgrade php-app to v1.11 ([50b9ffd](https://github.com/timo-reymann/docker-matomo/commit/50b9ffd8c4b3acb97e5564bda14cc451c3f46cca))
+
 ## [2.3.2](https://github.com/timo-reymann/docker-matomo/compare/2.3.1...2.3.2) (2024-06-21)
 
 
