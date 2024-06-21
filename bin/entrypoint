@@ -56,4 +56,4 @@ then
 fi
 
 entrypoint_log "Starting services"
-exec /bin/multirun -v mnginx mphp-fpm matomo-report-archiver
+exec /bin/multirun -v nginx php-fpm matomo-report-archiver

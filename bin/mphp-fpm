@@ -1,6 +1,0 @@
-#!/usr/bin/bash
-
-exec > >(trap "" INT TERM; cat ) | awk '{print "[php-fpm                ]:", $0}'
-exec 2> >(trap "" INT TERM; cat ) | awk '{print "[php-fpm                ]:", $0}' >&2
-
-exec php-fpm

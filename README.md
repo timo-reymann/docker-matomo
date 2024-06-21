@@ -128,18 +128,6 @@ Why not just using one of the official images?
 - go binary for archiving reports every hour
 - shell script for generating php config and 
 
-## Log Format
-
-The log format of the container is standardized for each component:
-
-```text
-[<component-name-optional-padding>]: <component log message>
-```
-
-### Component specific log format
-
-- nginx: [Nginx access log](https://nginx.org/en/docs/http/ngx_http_log_module.html)
-
 ## Contributing
 
 I love your input! I want to make contributing to this project as easy and transparent as possible, whether it's:
