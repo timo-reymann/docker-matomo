@@ -22,7 +22,7 @@ FROM scratch as bins
 COPY --from=builder /build/report-archiver /bin/matomo-report-archiver
 COPY bin/* /bin/
 
-FROM timoreymann/php-app:1.10.6
+FROM timoreymann/php-app:1.11.0
 LABEL org.opencontainers.image.title="docker-matomo"
 LABEL org.opencontainers.image.description="Docker image to run matomo, including report archive cron job and pre-bundled matomo"
 LABEL org.opencontainers.image.ref.name="main"
