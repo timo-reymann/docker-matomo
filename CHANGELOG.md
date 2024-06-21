@@ -1,3 +1,10 @@
+## [2.0.3](https://github.com/timo-reymann/docker-matomo/compare/2.0.2...2.0.3) (2024-06-21)
+
+
+### Bug Fixes
+
+* Drop log prefix in favor of memory usage ([a8bc2c6](https://github.com/timo-reymann/docker-matomo/commit/a8bc2c681dae508d6aedcbaf7588427f38f8a1ce))
+
 ## [2.0.2](https://github.com/timo-reymann/docker-matomo/compare/2.0.1...2.0.2) (2024-06-21)
 
 
