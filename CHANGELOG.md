@@ -1,3 +1,10 @@
+## [2.0.2](https://github.com/timo-reymann/docker-matomo/compare/2.0.1...2.0.2) (2024-06-21)
+
+
+### Bug Fixes
+
+* use awk instead of sed for log prefix ([79f1a00](https://github.com/timo-reymann/docker-matomo/commit/79f1a003127cb837e39aca7377c0dd92902eb867))
+
 ## [2.0.1](https://github.com/timo-reymann/docker-matomo/compare/2.0.0...2.0.1) (2024-06-21)
 
 
