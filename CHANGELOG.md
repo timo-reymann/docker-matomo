@@ -1,3 +1,10 @@
+## [2.3.2](https://github.com/timo-reymann/docker-matomo/compare/2.3.1...2.3.2) (2024-06-21)
+
+
+### Bug Fixes
+
+* Ensure patch doesn't break on linux host ([c7ccfbd](https://github.com/timo-reymann/docker-matomo/commit/c7ccfbde064e6a200c07070abbc5e3f9c12a2d69))
+
 ## [2.3.1](https://github.com/timo-reymann/docker-matomo/compare/2.3.0...2.3.1) (2024-06-21)
 
 
