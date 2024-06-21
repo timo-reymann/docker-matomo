@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/timo-reymann/docker-matomo/compare/2.0.0...2.0.1) (2024-06-21)
+
+
+### Bug Fixes
+
+* Allow empty table prefix ([2324388](https://github.com/timo-reymann/docker-matomo/commit/23243889761a528ab779fb6813680249ab1091a7))
+
 ## [2.0.0](https://github.com/timo-reymann/docker-matomo/compare/1.4.4...2.0.0) (2024-06-21)
 
 
