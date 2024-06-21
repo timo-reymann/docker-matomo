@@ -30,6 +30,7 @@ proxy_client_headers[] = "<?= $proxyClientHeader ?>"
 proxy_host_headers[] = "<?= $proxyHostHeader ?>"
 <?php endif; ?>
 <?php endforeach; ?>
+browser_archiving_disabled_enforce = 1
 
 <?php if(boolval(getenv("MATOMO_MAIL_ENABLED"))): ?>
 [mail]
