@@ -37,7 +37,7 @@ USER root
 
 # install lib
 # renovate: datasource=github-releases depName=maxmind/libmaxminddb
-ARG libmaxminddb_version=1.7.1
+ARG libmaxminddb_version=1.10.0
 RUN curl -Ls https://github.com/maxmind/libmaxminddb/releases/download/${libmaxminddb_version}/libmaxminddb-${libmaxminddb_version}.tar.gz | tar xvz \
     && cd libmaxminddb-${libmaxminddb_version} \
     && ./configure \
