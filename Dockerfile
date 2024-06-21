@@ -37,7 +37,7 @@ USER root
 
 # install lib
 # renovate: datasource=github-releases depName=maxmind/libmaxminddb
-ARG libmaxminddb_version=1.7.1
+ARG libmaxminddb_version=1.10.0
 RUN curl -Ls https://github.com/maxmind/libmaxminddb/releases/download/${libmaxminddb_version}/libmaxminddb-${libmaxminddb_version}.tar.gz | tar xvz \
     && cd libmaxminddb-${libmaxminddb_version} \
     && ./configure \
@@ -49,7 +49,7 @@ RUN curl -Ls https://github.com/maxmind/libmaxminddb/releases/download/${libmaxm
 
 # install php extension
 # renovate: datasource=github-releases depName=maxmind/MaxMind-DB-Reader-php
-ARG maxmind_db_reader_version=1.11.0
+ARG maxmind_db_reader_version=1.11.1
 RUN git clone --depth=1 --branch=v${maxmind_db_reader_version} https://github.com/maxmind/MaxMind-DB-Reader-php.git extension \
     && cd extension/ext \
     && phpize \
