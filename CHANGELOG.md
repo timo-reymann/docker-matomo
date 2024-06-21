@@ -1,3 +1,10 @@
+## [2.1.0](https://github.com/timo-reymann/docker-matomo/compare/2.0.3...2.1.0) (2024-06-21)
+
+
+### Features
+
+* Disable browser archiving via config by default ([af11a2b](https://github.com/timo-reymann/docker-matomo/commit/af11a2b9b0ecb99a44b19c35eff0eb8670b891a8))
+
 ## [2.0.3](https://github.com/timo-reymann/docker-matomo/compare/2.0.2...2.0.3) (2024-06-21)
 
 
