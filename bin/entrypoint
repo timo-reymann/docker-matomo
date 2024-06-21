@@ -21,6 +21,11 @@ install_plugins() {
 if [[ -n "$MATOMO_SETUP_COMPLETE" ]] && ! [[ "$MATOMO_SETUP_COMPLETE" =~ ^(false|0|no)$ ]];
 then
   entrypoint_log "Patch matomo config"
+  if [[ -f /app/config/config.ini.php ]];
+  then
+    rm /app/config/config.ini.php
+  fi
+
   echo "; <?php exit; ?> DO NOT REMOVE THIS LINE" >> /app/config/config.ini.php
   php /app/config/config.ini.template.php >> /app/config/config.ini.php
 
