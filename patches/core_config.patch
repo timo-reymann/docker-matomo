@@ -1,0 +1,44 @@
+Subject: [PATCH] matomo-core: Patch Configuration to make the config file readonly
+---
+Index: Config.php
+<+>UTF-8
+===================================================================
+diff --git a/plugins/Config.php b/Config.php
+--- a/core/Config.php	(revision 9f59df207bd02ccf98d943148ab355d759729b12)
++++ b/core/Config.php	(date 1718609509062)
+@@ -400,34 +400,7 @@
+         $output = $this->dumpConfig();
+ 
+         if ($output !== null && $output !== false) {
+-            $localPath = $this->getLocalPath();
+-
+-            if ($this->doNotWriteConfigInTests) {
+-                // simulate whether it would be successful
+-                $success = is_writable($localPath);
+-            } else {
+-                $success = @file_put_contents($localPath, $output, LOCK_EX);
+-            }
+-
+-            if ($success === false) {
+-                throw $this->getConfigNotWritableException();
+-            }
+-
+-            if (!$this->sanityCheck($localPath, $output)) {
+-                // If sanity check fails, try to write the contents once more before logging the issue.
+-                if (@file_put_contents($localPath, $output, LOCK_EX) === false || !$this->sanityCheck($localPath, $output, true)) {
+-                    StaticContainer::get(LoggerInterface::class)->info("The configuration file {$localPath} did not write correctly.");
+-                }
+-            }
+-
+-            $this->settings->getIniFileChain()->deleteConfigCache();
+-
+-            /**
+-             * Triggered when a INI config file is changed on disk.
+-             *
+-             * @param string $localPath Absolute path to the changed file on the server.
+-             */
+-            Piwik::postEvent('Core.configFileChanged', [$localPath]);
++           // do nothing
+         }
+     }
+ 

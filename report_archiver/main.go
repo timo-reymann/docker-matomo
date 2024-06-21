@@ -1,30 +1,37 @@
 package main
 
 import (
+	"github.com/kvz/logstreamer"
 	"log"
 	"os"
 	"os/exec"
 	"time"
 )
 
+var logger = log.New(os.Stdout, "[matomo-report-archiver]: ", log.Lmsgprefix)
+var logStreamerOut = logstreamer.NewLogstreamer(logger, "", false)
+
 func archiveReport(phpExecutable string) {
+    logger.Println("Archive reports")
 	cmd := exec.Command(phpExecutable, ConsolePath, "core:archive")
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
+	cmd.Stdout = logStreamerOut
+	cmd.Stderr = logStreamerOut
 
 	err := cmd.Run()
 	if err != nil {
-		log.Printf("Error running cron: %s\n", err.Error())
+		logger.Printf("Error running cron: %s\n", err.Error())
 	}
+	logStreamerOut.FlushRecord()
+	logStreamerOut.Flush()
 }
 
 const ConsolePath = "/app/console"
 
 func main() {
-	log.Println("Run report_archiver.")
+	logger.Println("Init report_archiver")
 	phpExecutable, err := exec.LookPath("php")
 	if err != nil {
-		log.Fatalf("ERROR: %s \n", err.Error())
+		logger.Fatalf("ERROR: %s \n", err.Error())
 	}
 
 	for {

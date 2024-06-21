@@ -1,0 +1,27 @@
+#!/bin/bash
+set -eo pipefail
+
+exec > >(trap "" INT TERM; sed 's/^/[matomo-download-plugin]: /')
+exec 2> >(trap "" INT TERM; sed 's/^/[matomo-download-plugin]: /' >&2)
+
+plugin="$1"
+
+if [[ -z "$plugin" ]]
+then
+  echo "Please specify plugin as first argument" >&2
+  exit 2
+fi
+
+if [[ -d "/app/plugins/$plugin" ]];
+then
+  echo "Plugin $plugin already installed"
+  exit 0
+fi
+
+echo "Download plugin $plugin from Marketplace"
+curl -f -sS \
+  `if [[ -n "$MATOMO_MARKETPLACE_TOKEN" ]]; then echo "--data \"access_token=${MATOMO_MARKETPLACE_TOKEN}\""; fi` \
+  https://plugins.matomo.org/api/2.0/plugins/$plugin/download/latest?matomo=$MATOMO_VERSION -o /tmp/plugins-$plugin.zip;
+
+(cd /app/plugins && unzip -q /tmp/plugins-$plugin.zip)
+rm /tmp/plugins-$plugin.zip

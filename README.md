@@ -14,21 +14,83 @@ Matomo Docker Image
 </p>
 
 ## Features
+
 - Running as non-root
-- Keep your matomo up to date independently of the image
+- Includes matomo installation
+- Easy installation of plugins on startup or in build process
 - Installed maxminddb php extension for geoip functionality
 - Run report archive every hour in dedicated crons
+- Disabled update check
+- Immutable configuration file
 
 ## Requirements
+
 - [Docker](https://docs.docker.com/get-docker/)
+
+## Configuration
+
+Configuration is done via environment variables:
+
+| Environment Variable                  | Description                                                                                                                       | Default | Possible values                                               |
+|:--------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------|:--------|:--------------------------------------------------------------|
+| MATOMO_PLUGINS_TO_DEACTIVATE          | List of plugins to deactivate on startup                                                                                          | None    | plugin names seperated by comma                               |
+| MATOMO_PLUGINS_TO_INSTALL             | List of plugins to install, this either means activating an already installed plugin or downloading it from Marketplace           | None    | plugin names seperated by comma                               |
+| MATOMO_DATABASE_HOST                  | Host of the MySQL server                                                                                                          | None    | MySQL database server host                                    |
+| MATOMO_DATABASE_USERNAME              | Username to authenticate to MySQL server with                                                                                     | None    | MySQL database user username                                  |
+| MATOMO_DATABASE_PASSWORD              | Password to authenticate to MySQL server with                                                                                     | None    | MySQL database user password                                  |
+| MATOMO_DATABASE_DBNAME                | Name of the database on the MySQL server to use                                                                                   | None    | MySQL database name                                           |
+| MATOMO_DATABASE_TABLES_PREFIX         | Table prefix to prepend to MySQL database tables                                                                                  | matomo_ | any string or leave empty to omit                             |
+| MATOMO_DATABASE_CHARSET               | Charset to use for MySQL database tables                                                                                          | utf8mb4 | any valid charset supported by your MySQL server              |
+| MATOMO_GENERAL_SALT                   | Salt to add to hashed values (this should never be changed once it is used, as it will render data unusable                       | None    | Salt to use for hashing                                       |
+| MATOMO_GENERAL_ASSUME_SECURE_PROTOCOL | Assume all requests have been sent over HTTPs and suppress warnings about http urls (set this if your proxy terminates the SSL)   | false   | false, true, 0, 1                                             |                                                  |
+| MATOMO_GENERAL_FORCE_SSL              | Enforce https for all generated clients (set this if your proxy terminates the SSL)                                               | false   | false, true, 0, 1                                             |
+| MATOMO_GENERAL_PROXY_CLIENT_HEADERS   | Proxy client headers to acknowledge                                                                                               | None    | header names seperated by comma                               |
+| MATOMO_GENERAL_PROXY_HOST_HEADERS     | Proxy host headers to acknowledge                                                                                                 | None    | header names seperated by comma                               |
+| MATOMO_GENERAL_TRUSTED_HOSTS          | Trusted hosts for matomo user interface and API                                                                                   | None    | host names seperated by comma                                 |
+| MATOMO_MAIL_ENABLED                   | Enable mail sending using matomo                                                                                                  | false   | false, true, 0, 1                                             |
+| MATOMO_MAIL_HOST                      | Hostname to use for sending mails                                                                                                 | None    | Hostname or IP address                                        |
+| MATOMO_MAIL_PORT                      | Port to use for sending mails                                                                                                     | 587     | any valid port number                                         |
+| MATOMO_MAIL_ENCRYPTION                | Encryption to use for sending mails                                                                                               | ssl     | auto, ssl, TLS, none                                          |
+| MATOMO_MAIL_USERNAME                  | Username to authenticate against mail server                                                                                      | None    | Valid email or username                                       |
+| MATOMO_MAIL_PASSWORD                  | Password to authenticate against mail server                                                                                      | None    | password or empty string in case the user has no password set |
+| MATOMO_MAIL_TRANSPORT                 | Transport to use for sending mails                                                                                                | smtp    | Any supported transport by matomo                             |
+| MATOMO_AUTO_UPDATE_SCHEMA             | Try to upgrade schema on start up                                                                                                 | false   | false, true, 0, 1                                             |
+| MATOMO_SETUP_COMPLETE                 | Set this to a truthy value to generate configuration file and skip setup assistant                                                | false   | false, true, 0, 1                                             |
+| MATOMO_MARKETPLACE_TOKEN              | (Optional) Token to authenticate plugin install requests with when loading from Marketplace (required for private & paid plugins) | None    | any valid token for the matomo marketplace                    |
+
+## Install plugins
+
+### On start up
+
+If you want to install plugins on startup you can simply set the `MATOMO_PLUGINS_TO_INSTALL` env variable.
+
+The plugins will be activated or if not installed already installed first from Marketplace.
+
+### In docker build
+
+Use this docker image as a base and pre-install plugins, e.g:
+
+```dockerfile
+FROM timoreymann/matomo
+RUN matomo-download-pugin Swagger \
+    && matomo-download-plugin BotTracker
+```
+
+When you run your image set `MATOMO_PLUGINS_TO_INSTALL=Swagger,BotTracker`.
+
+This will only activate the plugins but not have to download them first.
 
 ## Installation
 
-- Download matomo from the [official homepage](https://builds.matomo.org/matomo.zip)
-- Mount the unzipped contents in `/app` for the image
 - Expose port `8080`
+- Set environment variables [as documented in Configuration](#configuration)
+- Run once with `MATOMO_MATOMO_SETUP_COMPLETE=0`
+- Complete the installer
+- Set `MATOMO_SETUP_COMPLETE=1` and start up the container again
+- Enjoy!
 
 ### Example docker run command
+
 ```sh
 docker run --name matomo -p 8080:8080 -v ${PWD}:/app timoreymann/matomo
 ```
@@ -36,30 +98,47 @@ docker run --name matomo -p 8080:8080 -v ${PWD}:/app timoreymann/matomo
 ## Usage
 
 ### Web UI
+
 - Open your browser on the exposed port e.g. localhost:8080
 
 ### Updating
+
 - The image is updated in case of any upstream changes to the php image
   or maxminddb extension, which results in new image on docker hub
   available for you
-- For matomo updates you can rely on the regular update procedure in the
-  web frontend
+- For matomo updates you can rely on the regular update procedure, also automated using renovate with a manual approval
+  and review on every update
 
 ## Motivation
+
 Why not just using one of the official images?
 
-- first of all they run as root, which i dont like
-- on the other hand i would like to use nginx over apache, for
+- first of all they run as root, which i don't like
+- on the other hand I would like to use nginx over apache, for
   performance, security reasons and personal preference
 - includes no cron for archiving, which dramatically speeds up the web
   ui
-  
-## Documentation
+- mutable matomo installation, i would like to not mount any files
 
-### Components
+
+## Components
+
 - nginx
 - php-fpm
 - go binary for archiving reports every hour
+- shell script for generating php config and 
+
+## Log Format
+
+The log format of the container is standardized for each component:
+
+```text
+[<component-name-optional-padding>]: <component log message>
+```
+
+### Component specific log format
+
+- nginx: [Nginx access log](https://nginx.org/en/docs/http/ngx_http_log_module.html)
 
 ## Contributing
 
@@ -76,8 +155,10 @@ To get started please read the [Contribution Guidelines](./CONTRIBUTING.md).
 ## Development
 
 ### Requirements
+
 - [Docker](https://docs.docker.com/get-docker/)
 
 ### Alternatives
+
 - [Official Matomo Images](https://hub.docker.com/_/matomo)
 

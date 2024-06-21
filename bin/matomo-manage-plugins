@@ -1,0 +1,26 @@
+#!/bin/bash
+set -eo pipefail
+
+exec > >(trap "" INT TERM; sed 's/^/[matomo-manage-plugin  ]: /')
+exec 2> >(trap "" INT TERM; sed 's/^/[matomo-manage-plugin  ]: /' >&2)
+
+usage() {
+  echo "Usage: $(basename $0) <state> '<plugins seperated by comma>'" >&2
+  exit 2
+}
+
+state="$1"
+plugins="$2"
+
+
+if [[ -z "$state" ]] || [[ -z "$plugins" ]];
+then
+  usage
+fi
+
+
+IFS=","
+for plugin in $plugins;
+do
+  /app/console "plugin:$state" "$plugin"
+done
