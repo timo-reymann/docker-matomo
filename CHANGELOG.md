@@ -1,3 +1,10 @@
+## [2.3.0](https://github.com/timo-reymann/docker-matomo/compare/2.2.0...2.3.0) (2024-06-21)
+
+
+### Features
+
+* Drop config file when container is restarted ([75e6307](https://github.com/timo-reymann/docker-matomo/commit/75e63070e18673c2a880e56a0ad918dfcfe9e26d))
+
 ## [2.2.0](https://github.com/timo-reymann/docker-matomo/compare/2.1.0...2.2.0) (2024-06-21)
 
 
