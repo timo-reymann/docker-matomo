@@ -6,6 +6,7 @@ password = "<?= getenv('MATOMO_DATABASE_PASSWORD'); ?>"
 dbname = "<?= getenv('MATOMO_DATABASE_DBNAME'); ?>"
 tables_prefix = "<?= getenv('MATOMO_DATABASE_TABLES_PREFIX'); ?>"
 charset = "<?= getenv('MATOMO_DATABASE_CHARSET') ?: "utf8mb4"; ?>"
+schema = "<?= getenv('MATOMO_DATABASE_SCHEMA') ?: "Mariadb"; ?>"
 
 [General]
 salt = "<?= getenv("MATOMO_GENERAL_SALT") ?>"
