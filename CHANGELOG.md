@@ -1,3 +1,10 @@
+## [2.6.0](https://github.com/timo-reymann/docker-matomo/compare/2.5.0...2.6.0) (2024-06-22)
+
+
+### Features
+
+* Force report archiving and admin features conflicting to be off by default ([d4a3ab5](https://github.com/timo-reymann/docker-matomo/commit/d4a3ab52e1637c235b53bde25921e43117f762e9))
+
 ## [2.5.0](https://github.com/timo-reymann/docker-matomo/compare/2.4.0...2.5.0) (2024-06-22)
 
 
