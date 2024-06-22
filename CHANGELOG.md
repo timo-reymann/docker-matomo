@@ -1,3 +1,11 @@
+## [2.5.0](https://github.com/timo-reymann/docker-matomo/compare/2.4.0...2.5.0) (2024-06-22)
+
+
+### Features
+
+* Add config support for database schema ([060ecec](https://github.com/timo-reymann/docker-matomo/commit/060ececb906929957c9303e8c278b588464431cb))
+* Add ps to image ([db3ecd5](https://github.com/timo-reymann/docker-matomo/commit/db3ecd55e476c0c8b9f1105d8f0ac1d0b562ac9c))
+
 ## [2.4.0](https://github.com/timo-reymann/docker-matomo/compare/2.3.2...2.4.0) (2024-06-21)
 
 
