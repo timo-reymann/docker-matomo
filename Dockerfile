@@ -35,6 +35,11 @@ LABEL org.opencontainers.image.source="https://github.com/timo-reymann/docker-ma
 
 USER root
 
+RUN apt-get update -y \
+    && apt-get upgrade -y \
+    && apt-get install --no-install-recommends -y procps \
+    && rm -rf /var/lib/apt/lists/*
+
 # install lib
 # renovate: datasource=github-releases depName=maxmind/libmaxminddb
 ARG libmaxminddb_version=1.10.0
@@ -64,12 +69,12 @@ RUN git clone --depth=1 --branch=v${maxmind_db_reader_version} https://github.co
 
 USER application
 
-COPY nginx_matomo.conf /etc/nginx/conf.d/matomo.conf
-
 ARG matomo_version
 ENV MATOMO_VERSION=${matomo_version}
 
+COPY --from=builder /build/report-archiver /bin/matomo-report-archiver
 COPY --chown=application:application --from=matomo_archive /src/matomo /app
 COPY --chown=application:application --from=bins /bin /bin
+COPY  nginx_matomo.conf /etc/nginx/conf.d/
 
 ENTRYPOINT ["/bin/entrypoint"]
