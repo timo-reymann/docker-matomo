@@ -1,6 +1,10 @@
 name: Comment matomo changed files diff on renovate MRs
 on:
   pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
     branches:
       - 'renovate/matomo'
 permissions:
