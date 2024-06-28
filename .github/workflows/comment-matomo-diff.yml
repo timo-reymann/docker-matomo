@@ -2,7 +2,7 @@ name: Comment matomo changed files diff on renovate MRs
 on:
   pull_request:
     branches:
-      - 'renovate/matomo*'
+      - 'renovate/matomo**'
 permissions:
   issues: write
 jobs:
