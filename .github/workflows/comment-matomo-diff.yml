@@ -5,10 +5,8 @@ on:
       - opened
       - reopened
       - synchronize
-    branches:
-      - 'renovate/matomo'
 permissions:
-  issues: write
+  pull-requests: write
 jobs:
   comment:
     runs-on: ubuntu-latest
@@ -25,18 +23,63 @@ jobs:
           pip install -r check-changed-files/requirements.txt
       - name: run check
         run: |
+          export OLD_VERSION="$(./check-changed-files/get-matomo-version.py  --ref main)"
+          export NEW_VERSION="$(./check-changed-files/get-matomo-version.py  --ref ${GITHUB_REF})"
+          
+          if [[ "$NEW_VERSION" == "$OLD_VERSION" ]];
+          then
+            echo "No change in matomo version, skipping diff"
+            echo "MATOMO_DIFF_STR=" >> "$GITHUB_ENV"
+            exit 0
+          fi
+          
+          echo "Getting diff from $OLD_VERSION to $NEW_VERSION"
           export DIFF_STR=$(./check-changed-files/get-changed-files-diff.py \
               --repository-git-url https://github.com/matomo-org/matomo.git \
-              --version-a "$(./check-changed-files/get-matomo-version.py  --ref ${GITHUB_REF})" \
-              --version-b "$(./check-changed-files/get-matomo-version.py  --ref main)" \
-              core/Config.php core/UpdateCheck.php)
+              --version-a "${OLD_VERSION}" \
+              --version-b "${NEW_VERSION}" \
+              core/Config.php core/UpdateCheck.php || echo "No diff")
+          echo "VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV"
+          echo "$DIFF_STR"
+          {
+            echo 'MATOMO_DIFF_STR<<EOF'
+             echo "$DIFF_STR"
+            echo EOF
+          } >> "$GITHUB_ENV"
+          echo "MATOMO_OLD_VERSION=$OLD_VERSION" >> "$GITHUB_ENV"
+          echo "MATOMO_NEW_VERSION=$NEW_VERSION" >> "$GITHUB_ENV"
+      - name: Find Comment
+        uses: peter-evans/find-comment@v3
+        if: env.MATOMO_DIFF_STR != ''
+        id: fc
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: ':mag: Relevant changes for matomo update from'
       - name: Create comment
+        if: env.MATOMO_DIFF_STR != '' && steps.fc.outputs.comment-id == ''
         uses: peter-evans/create-or-update-comment@v4
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            Diff for matomo update:
+            :mag: Relevant changes for matomo update from ${{ env.MATOMO_OLD_VERSION }} :arrow_right: ${{ env.MATOMO_NEW_VERSION }}:
 
             ```diff
-            ${{ env.DIFF_STR }}
+            ${{ env.MATOMO_DIFF_STR }}
             ```
+            
+            As these changes are patched on top of the core, this might require a rewrite of the patch files.
+      - name: Update comment
+        if: env.MATOMO_DIFF_STR != '' && steps.fc.outputs.comment-id != ''
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          edit-mode: replace
+          comment-id: ${{ steps.fc.outputs.comment-id }}
+          body: |
+            :mag: Relevant changes for matomo update from ${{ env.MATOMO_OLD_VERSION }} :arrow_right: ${{ env.MATOMO_NEW_VERSION }}:
+
+            ```diff
+            ${{ env.MATOMO_DIFF_STR }}
+            ```
+            
+            As these changes are patched on top of the core, this might require a rewrite of the patch files.
