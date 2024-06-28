@@ -1,5 +1,5 @@
 # renovate: datasource=github-tags depName=matomo-org/matomo
-ARG matomo_version=5.1.0
+ARG matomo_version=4.0.0
 
 FROM golang:1.20-buster as builder
 WORKDIR /build
