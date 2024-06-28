@@ -1,0 +1,38 @@
+name: Comment matomo changed files diff on renovate MRs
+on:
+  pull_request:
+    branches:
+      - 'renovate/matomo*'
+permissions:
+  issues: write
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v2
+      - name: setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+      - name: install python packages
+        run: |
+          pip install -r check-changed-files/requirements.txt
+      - name: run check
+        run: |
+          export DIFF_STR=$(./check-changed-files/get-changed-files-diff.py \
+              --repository-git-url https://github.com/matomo-org/matomo.git \
+              --version-a "$(./check-changed-files/get-matomo-version.py  --ref ${GITHUB_REF})" \
+              --version-b "$(./check-changed-files/get-matomo-version.py  --ref main)" \
+              core/Config.php core/UpdateCheck.php)
+      - name: Create comment
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            Diff for matomo update:
+
+            ```diff
+            ${{ env.DIFF_STR }}
+            ```

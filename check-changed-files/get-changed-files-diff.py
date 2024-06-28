@@ -40,7 +40,7 @@ def _resolve_version_tags(repo, version_a, version_b):
         raise ValueError(f"tag_a=={version_a} could not be resolved")
 
     if tag_b is None:
-        raise ValueError(f"tab_b=={version_a} could not be resolved")
+        raise ValueError(f"tag_b=={version_a} could not be resolved")
 
     return tag_a, tag_b
 
